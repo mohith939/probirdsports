@@ -2,268 +2,260 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { 
   Shield, 
-  Truck, 
+  Package, 
   Users, 
-  Star, 
+  Headset, 
   ArrowRight, 
-  MessageSquare,
-  Layers,
-  FileSpreadsheet,
-  Headset
+  MessageSquare 
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
 import { generateWhatsAppUrl, buildGeneralBulkEnquiryMessage, hasConfiguredWhatsApp } from "@/lib/whatsapp";
 
+// Athletic explosive spring & acceleration curves
+const athleticEase = [0.16, 1, 0.3, 1] as const;
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: athleticEase,
+    },
+  },
+};
+
+const pillarVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: athleticEase,
+    },
+  },
+};
+
 export function BuiltForBulk() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [enquirySubject, setEnquirySubject] = useState("");
+  const [enquirySubject, setEnquirySubject] = useState("Institutional Bulk Pricing");
 
-  const handleCardClick = (title: string) => {
-    setEnquirySubject(title);
+  const handleOpenModal = (topic: string) => {
+    setEnquirySubject(topic);
     setModalOpen(true);
   };
 
   const handleWhatsAppAction = (e: React.MouseEvent) => {
     if (!hasConfiguredWhatsApp()) {
       e.preventDefault();
-      setEnquirySubject("Institutional Bulk Pricing");
-      setModalOpen(true);
+      handleOpenModal("Institutional Bulk Pricing");
     }
   };
 
   return (
     <>
-      <section className="relative bg-[#070707] text-white overflow-hidden border-b border-[#1A1A1A]">
-        {/* Full Section Grid Container */}
-        <div className="max-w-[1440px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
-            {/* ================= LEFT CONTENT PANEL (7 cols on lg) ================= */}
-            <div className="lg:col-span-7 px-5 sm:px-8 lg:px-12 py-12 lg:py-16 flex flex-col justify-between space-y-8 z-10 bg-[#070707]">
-              {/* Header block */}
-              <div className="space-y-4">
-                {/* Outlined Badge */}
-                <div className="inline-block">
-                  <span className="inline-flex items-center px-3 py-1 rounded-[4px] border border-brand-red/60 bg-brand-red/10 text-brand-red text-[11px] font-black uppercase tracking-widest">
-                    WHOLESALE & INSTITUTIONAL OPERATIONS
-                  </span>
-                </div>
+      <section className="relative min-h-[660px] lg:min-h-[720px] flex items-center overflow-hidden bg-[#070707] text-white border-b border-[#1A1A1A]">
+        {/* ================= BACKGROUND ARTWORK ================= */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <motion.div 
+            initial={{ scale: 1.05, opacity: 0.8 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="relative w-full h-full"
+          >
+            <Image
+              src="/images/bulk-buyers-bg.jpg"
+              alt="ProBird Sports Athletes walking in warehouse with equipment racks and banners"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-[75%_center] sm:object-right lg:object-right brightness-[0.95] contrast-[1.04]"
+            />
+          </motion.div>
 
-                {/* Main Headline */}
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black font-display uppercase tracking-tight text-white leading-none">
-                  BUILT FOR <br />
-                  <span className="text-brand-red">BULK BUYERS.</span>
-                </h2>
+          {/* Directional gradients preserving sharp left typography legibility */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#070707] via-[#070707]/85 sm:via-[#070707]/55 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#070707] via-transparent to-[#070707]/40" />
 
-                {/* Subtitle */}
-                <p className="text-xs sm:text-sm font-bold tracking-widest uppercase text-gray-300">
-                  SPORTS EQUIPMENT FOR TEAMS, INSTITUTIONS AND BUSINESSES.
+          {/* Athletic red floor reflection ambient glow */}
+          <div className="absolute bottom-0 left-1/4 w-[450px] h-32 bg-brand-red/15 blur-[100px] pointer-events-none" />
+        </div>
+
+        {/* ================= CONTENT CONTAINER ================= */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            className="max-w-2xl lg:max-w-3xl flex flex-col justify-between space-y-8 lg:space-y-10"
+          >
+            {/* Header block with athletic stagger */}
+            <div className="space-y-5 sm:space-y-6">
+              {/* Tagline Kicker Line matching reference mockup */}
+              <motion.div variants={itemVariants} className="flex items-center gap-3">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  whileInView={{ width: 40 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.2, ease: athleticEase }}
+                  className="h-[2.5px] bg-brand-red rounded-full shrink-0" 
+                />
+                <span className="text-xs sm:text-[13px] font-bold uppercase tracking-[0.2em] text-gray-300">
+                  WHOLESALE & INSTITUTIONAL OPERATIONS
+                </span>
+              </motion.div>
+
+              {/* Main Headline matching reference mockup */}
+              <motion.h2 
+                variants={itemVariants} 
+                className="text-5xl sm:text-7xl lg:text-[84px] font-black font-display uppercase tracking-tight text-white leading-[0.92] drop-shadow-2xl"
+              >
+                BUILT FOR <br />
+                <span className="text-brand-red">BULK BUYERS.</span>
+              </motion.h2>
+
+              {/* Subtitle Copy matching reference mockup */}
+              <motion.div variants={itemVariants} className="space-y-1.5 text-sm sm:text-base lg:text-[17px] text-gray-300 font-normal leading-relaxed max-w-xl">
+                <p>Sports equipment for teams, institutions and businesses.</p>
+                <p className="text-gray-400">
+                  Quality gear. Reliable supply. Competitive wholesale pricing.
                 </p>
-              </div>
+              </motion.div>
+            </div>
 
-              {/* 2x2 Feature Cards Grid matching reference mockup */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                {/* CARD 1: MULTI-SPORT SOURCING */}
-                <button
-                  type="button"
-                  onClick={() => handleCardClick("Multi-Sport Sourcing")}
-                  className="group relative h-28 sm:h-32 rounded-lg overflow-hidden border border-[#262626] hover:border-brand-red transition-all duration-300 text-left shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-red"
-                  aria-label="Multi-Sport Sourcing"
-                >
-                  <Image
-                    src="/images/card-1-multi-sport.jpg"
-                    alt="Multi-Sport Sourcing - Cricket, Football, Basketball, Badminton"
-                    fill
-                    sizes="(max-width: 640px) 100vw, 350px"
-                    className="object-cover object-right group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="relative z-10 h-full p-3.5 flex flex-col justify-between">
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-7 h-7 rounded bg-brand-red/15 border border-brand-red/40 flex items-center justify-center shrink-0">
-                        <Layers className="w-4 h-4 text-brand-red" />
-                      </div>
-                      <span className="text-xs font-black uppercase tracking-wider text-white leading-tight drop-shadow">
-                        MULTI-SPORT <br />SOURCING
-                      </span>
-                    </div>
-                    <div className="w-7 h-7 rounded-full bg-black/60 border border-white/30 group-hover:border-brand-red group-hover:bg-brand-red flex items-center justify-center transition-colors">
-                      <ArrowRight className="w-3.5 h-3.5 text-white" />
-                    </div>
-                  </div>
-                </button>
+            {/* Action Buttons matching reference mockup */}
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-1">
+              {/* Primary Button with Athletic Pulse Glow */}
+              <motion.a
+                href={generateWhatsAppUrl(buildGeneralBulkEnquiryMessage())}
+                onClick={handleWhatsAppAction}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="relative group px-7 sm:px-8 py-4 rounded-lg bg-brand-red hover:bg-brand-redHover text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-[0_0_30px_rgba(224,24,35,0.45)] hover:shadow-[0_0_45px_rgba(224,24,35,0.7)] transition-all overflow-hidden focus:outline-none focus:ring-2 focus:ring-brand-red"
+              >
+                {/* Athletic speed sheen highlight animation */}
+                <span className="absolute top-0 -left-[100%] w-[60%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-25deg] group-hover:left-[200%] transition-all duration-700 ease-out pointer-events-none" />
+                <MessageSquare className="w-4 h-4 shrink-0" />
+                <span>ENQUIRE FOR INSTITUTIONAL PRICING</span>
+                <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform" />
+              </motion.a>
 
-                {/* CARD 2: CUSTOMIZED QUOTATIONS */}
-                <button
-                  type="button"
-                  onClick={() => handleCardClick("Customized Quotations")}
-                  className="group relative h-28 sm:h-32 rounded-lg overflow-hidden border border-[#262626] hover:border-brand-red transition-all duration-300 text-left shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-red"
-                  aria-label="Customized Quotations"
-                >
-                  <Image
-                    src="/images/card-2-custom-quotes.jpg"
-                    alt="Customized Quotations Checklist and Equipment Orders"
-                    fill
-                    sizes="(max-width: 640px) 100vw, 350px"
-                    className="object-cover object-right group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="relative z-10 h-full p-3.5 flex flex-col justify-between">
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-7 h-7 rounded bg-brand-red/15 border border-brand-red/40 flex items-center justify-center shrink-0">
-                        <FileSpreadsheet className="w-4 h-4 text-brand-red" />
-                      </div>
-                      <span className="text-xs font-black uppercase tracking-wider text-white leading-tight drop-shadow">
-                        CUSTOMIZED <br />QUOTATIONS
-                      </span>
-                    </div>
-                    <div className="w-7 h-7 rounded-full bg-black/60 border border-white/30 group-hover:border-brand-red group-hover:bg-brand-red flex items-center justify-center transition-colors">
-                      <ArrowRight className="w-3.5 h-3.5 text-white" />
-                    </div>
-                  </div>
-                </button>
-
-                {/* CARD 3: TEAM & TOURNAMENT SUPPLY */}
-                <button
-                  type="button"
-                  onClick={() => handleCardClick("Team & Tournament Supply")}
-                  className="group relative h-28 sm:h-32 rounded-lg overflow-hidden border border-[#262626] hover:border-brand-red transition-all duration-300 text-left shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-red"
-                  aria-label="Team & Tournament Supply"
-                >
-                  <Image
-                    src="/images/card-3-team-supply.jpg"
-                    alt="Team and Tournament Equipment Supply"
-                    fill
-                    sizes="(max-width: 640px) 100vw, 350px"
-                    className="object-cover object-right group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="relative z-10 h-full p-3.5 flex flex-col justify-between">
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-7 h-7 rounded bg-brand-red/15 border border-brand-red/40 flex items-center justify-center shrink-0">
-                        <Users className="w-4 h-4 text-brand-red" />
-                      </div>
-                      <span className="text-xs font-black uppercase tracking-wider text-white leading-tight drop-shadow">
-                        TEAM & <br />TOURNAMENT SUPPLY
-                      </span>
-                    </div>
-                    <div className="w-7 h-7 rounded-full bg-black/60 border border-white/30 group-hover:border-brand-red group-hover:bg-brand-red flex items-center justify-center transition-colors">
-                      <ArrowRight className="w-3.5 h-3.5 text-white" />
-                    </div>
-                  </div>
-                </button>
-
-                {/* CARD 4: DIRECT CONSULTATION */}
-                <button
-                  type="button"
-                  onClick={() => handleCardClick("Direct Consultation via WhatsApp")}
-                  className="group relative h-28 sm:h-32 rounded-lg overflow-hidden border border-[#262626] hover:border-brand-red transition-all duration-300 text-left shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-red"
-                  aria-label="Direct Consultation via WhatsApp"
-                >
-                  <Image
-                    src="/images/card-4-direct-consultation.jpg"
-                    alt="Direct Consultation on WhatsApp"
-                    fill
-                    sizes="(max-width: 640px) 100vw, 350px"
-                    className="object-cover object-right group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="relative z-10 h-full p-3.5 flex flex-col justify-between">
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-7 h-7 rounded bg-brand-red/15 border border-brand-red/40 flex items-center justify-center shrink-0">
-                        <Headset className="w-4 h-4 text-brand-red" />
-                      </div>
-                      <span className="text-xs font-black uppercase tracking-wider text-white leading-tight drop-shadow">
-                        DIRECT <br />CONSULTATION
-                      </span>
-                    </div>
-                    <div className="w-7 h-7 rounded-full bg-black/60 border border-white/30 group-hover:border-brand-red group-hover:bg-brand-red flex items-center justify-center transition-colors">
-                      <ArrowRight className="w-3.5 h-3.5 text-white" />
-                    </div>
-                  </div>
-                </button>
-              </div>
-
-              {/* Action Buttons matching reference mockup */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
-                <a
-                  href={generateWhatsAppUrl(buildGeneralBulkEnquiryMessage())}
-                  onClick={handleWhatsAppAction}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3.5 rounded-md bg-brand-red hover:bg-brand-redHover text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-xl shadow-brand-red/25 transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-brand-red"
-                >
-                  {/* WhatsApp speech bubble icon */}
-                  <svg
-                    className="w-4 h-4 fill-white"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.004.577 1.764.793 2.806.793 3.182 0 5.768-2.587 5.768-5.766.001-3.182-2.585-5.776-5.768-5.776zm3.385 8.136c-.143.403-.717.741-1.025.787-.278.043-.642.067-1.042-.061-.252-.081-.577-.189-1.001-.371-.85-.367-1.401-1.229-1.443-1.285-.043-.057-.348-.463-.348-.885 0-.421.221-.628.299-.714.079-.086.172-.108.229-.108.057 0 .114.001.164.004.053.002.124-.02.193.146.071.171.243.593.264.636.021.043.036.093.007.15-.029.057-.043.093-.086.143-.043.05-.091.111-.13.15-.044.043-.09.09-.039.179.051.088.226.372.486.603.334.298.616.39.703.433.088.043.14.036.192-.023.053-.06.227-.265.287-.356.06-.091.121-.076.204-.045.083.031.528.249.619.294.091.045.152.067.174.105.022.038.022.219-.121.622zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.177L2 22l4.981-1.307A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
-                  </svg>
-                  <span>ENQUIRE FOR INSTITUTIONAL PRICING</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </a>
-
-                <a
+              {/* Secondary Button */}
+              <motion.div
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              >
+                <Link
                   href="/about"
-                  className="px-6 py-3.5 rounded-md bg-[#131313] hover:bg-[#1A1A1A] text-gray-200 font-bold text-xs uppercase tracking-wider border border-[#2E2E2E] hover:border-gray-400 flex items-center justify-center gap-2 transition-colors"
+                  className="group px-7 sm:px-8 py-4 rounded-lg bg-black/55 hover:bg-black/80 text-gray-200 hover:text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-[#303030] hover:border-gray-400 flex items-center justify-center gap-2.5 backdrop-blur-md transition-all shadow-lg"
                 >
                   <span>LEARN OUR MODEL</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+                </Link>
+              </motion.div>
+            </motion.div>
 
-              {/* Bottom 4 Trust Micro-Pillars matching reference mockup */}
-              <div className="pt-6 border-t border-[#1C1C1C] grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div className="flex items-center gap-2.5">
-                  <Shield className="w-4 h-4 text-brand-red shrink-0" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-300">
-                    RELIABLE <br />SUPPLY
-                  </span>
+            {/* Bottom 4 Trust Micro-Pillars with Framer Motion Stagger */}
+            <motion.div 
+              variants={itemVariants}
+              className="pt-6 border-t border-[#1F1F1F] flex flex-wrap items-center gap-y-4 gap-x-2 sm:gap-x-0"
+            >
+              {/* Pillar 1: Reliable Supply */}
+              <motion.div 
+                variants={pillarVariants}
+                whileHover={{ y: -3, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                className="flex items-center gap-3 pr-4 sm:pr-6 cursor-default group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-brand-red/10 border border-brand-red/25 flex items-center justify-center shrink-0 group-hover:bg-brand-red/20 group-hover:border-brand-red/50 transition-colors">
+                  <Shield className="w-4 h-4 text-brand-red group-hover:scale-110 transition-transform" />
                 </div>
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-300 leading-tight">
+                  RELIABLE <br />SUPPLY
+                </span>
+              </motion.div>
 
-                <div className="flex items-center gap-2.5 sm:border-l sm:border-[#1E1E1E] sm:pl-4">
-                  <Truck className="w-4 h-4 text-brand-red shrink-0" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-300">
-                    ORGANIZATIONAL <br />PURCHASING
-                  </span>
+              {/* Divider 1 */}
+              <div className="hidden sm:block w-[1px] h-8 bg-[#262626] mr-6" />
+
+              {/* Pillar 2: Organizational Purchasing */}
+              <motion.div 
+                variants={pillarVariants}
+                whileHover={{ y: -3, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                className="flex items-center gap-3 pr-4 sm:pr-6 cursor-default group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-brand-red/10 border border-brand-red/25 flex items-center justify-center shrink-0 group-hover:bg-brand-red/20 group-hover:border-brand-red/50 transition-colors">
+                  <Package className="w-4 h-4 text-brand-red group-hover:scale-110 transition-transform" />
                 </div>
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-300 leading-tight">
+                  ORGANIZATIONAL <br />PURCHASING
+                </span>
+              </motion.div>
 
-                <div className="flex items-center gap-2.5 sm:border-l sm:border-[#1E1E1E] sm:pl-4">
-                  <Users className="w-4 h-4 text-brand-red shrink-0" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-300">
-                    MULTI-SPORT <br />COVERAGE
-                  </span>
+              {/* Divider 2 */}
+              <div className="hidden sm:block w-[1px] h-8 bg-[#262626] mr-6" />
+
+              {/* Pillar 3: Multi-Sport Coverage */}
+              <motion.div 
+                variants={pillarVariants}
+                whileHover={{ y: -3, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                className="flex items-center gap-3 pr-4 sm:pr-6 cursor-default group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-brand-red/10 border border-brand-red/25 flex items-center justify-center shrink-0 group-hover:bg-brand-red/20 group-hover:border-brand-red/50 transition-colors">
+                  <Users className="w-4 h-4 text-brand-red group-hover:scale-110 transition-transform" />
                 </div>
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-300 leading-tight">
+                  MULTI-SPORT <br />COVERAGE
+                </span>
+              </motion.div>
 
-                <div className="flex items-center gap-2.5 sm:border-l sm:border-[#1E1E1E] sm:pl-4">
-                  <Star className="w-4 h-4 text-brand-red shrink-0" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-gray-300">
-                    DEDICATED <br />SUPPORT
-                  </span>
+              {/* Divider 3 */}
+              <div className="hidden sm:block w-[1px] h-8 bg-[#262626] mr-6" />
+
+              {/* Pillar 4: Dedicated Support */}
+              <motion.div 
+                variants={pillarVariants}
+                whileHover={{ y: -3, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                className="flex items-center gap-3 cursor-default group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-brand-red/10 border border-brand-red/25 flex items-center justify-center shrink-0 group-hover:bg-brand-red/20 group-hover:border-brand-red/50 transition-colors">
+                  <Headset className="w-4 h-4 text-brand-red group-hover:scale-110 transition-transform" />
                 </div>
-              </div>
-            </div>
-
-            {/* ================= RIGHT VISUAL WAREHOUSE SCENE (5 cols on lg) ================= */}
-            <div className="lg:col-span-5 relative min-h-[380px] sm:min-h-[460px] lg:min-h-full overflow-hidden bg-black flex items-center justify-center">
-              {/* Dynamic diagonal red accent cut matching mockup */}
-              <div className="absolute inset-0 z-0">
-                <Image
-                  src="/images/bulk-buyers-warehouse.jpg"
-                  alt="ProBird Sports Team Athletes and Institutional Equipment Warehouse Racks"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                  className="object-cover object-center lg:object-left hover:scale-[1.02] transition-transform duration-700"
-                />
-                {/* Subtle gradient to merge cleanly with left side on smaller screens */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#070707] via-transparent to-transparent lg:hidden" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#070707]/15 via-transparent to-transparent hidden lg:block" />
-              </div>
-            </div>
-          </div>
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gray-300 leading-tight">
+                  DEDICATED <br />SUPPORT
+                </span>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
+      {/* Interactive Bulk Quote Modal */}
       <BulkQuoteModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
