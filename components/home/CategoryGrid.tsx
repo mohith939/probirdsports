@@ -3,6 +3,8 @@
 import React from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { athleticEase, viewportDefault, createStaggerContainer, staggerItem, revealUp } from "@/lib/motion";
 
 interface GameCategory {
   id: string;
@@ -76,7 +78,13 @@ export function CategoryGrid() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-10 sm:mb-14 space-y-3">
+        <motion.div
+          variants={revealUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportDefault}
+          className="mb-10 sm:mb-14 space-y-3"
+        >
           <div className="inline-block">
             <span className="inline-flex items-center px-3 py-1 rounded-[4px] border border-brand-red/60 bg-brand-red/10 text-brand-red text-[11px] font-black uppercase tracking-widest">
               SPORTS CATALOGUE
@@ -90,15 +98,24 @@ export function CategoryGrid() {
           <p className="text-xs sm:text-sm text-gray-300 font-medium max-w-xl leading-relaxed">
             Explore equipment by sport. Built for teams, schools and bulk buyers.
           </p>
-        </div>
+        </motion.div>
 
         {/* 6 Category Cards Grid matching reference mockup */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4">
+        <motion.div
+          variants={createStaggerContainer(0.08, 0.1)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportDefault}
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4"
+        >
           {gameCategories.map((cat) => (
-            <a
+            <motion.a
               key={cat.id}
               href={cat.href}
-              className="group relative h-[280px] sm:h-[330px] lg:h-[370px] rounded-lg sm:rounded-xl overflow-hidden border border-[#262626] hover:border-brand-red transition-all duration-300 shadow-xl flex flex-col justify-end focus:outline-none focus:ring-2 focus:ring-brand-red"
+              variants={staggerItem}
+              whileHover={{ y: -5, scale: 1.02 }}
+              transition={{ duration: 0.25, ease: athleticEase }}
+              className="group relative h-[280px] sm:h-[330px] lg:h-[370px] rounded-lg sm:rounded-xl overflow-hidden border border-[#262626] hover:border-brand-red transition-colors duration-300 shadow-xl flex flex-col justify-end focus:outline-none focus:ring-2 focus:ring-brand-red cursor-pointer"
               aria-label={`Explore ${cat.name} equipment`}
             >
               {/* Card Artwork */}
@@ -122,12 +139,18 @@ export function CategoryGrid() {
                   &rarr;
                 </span>
               </div>
-            </a>
+            </motion.a>
           ))}
-        </div>
+        </motion.div>
 
         {/* Centered Bottom Link matching reference mockup */}
-        <div className="mt-12 text-center">
+        <motion.div
+          variants={revealUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportDefault}
+          className="mt-12 text-center"
+        >
           <a
             href="/products"
             className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-300 hover:text-white transition-colors group pb-1 border-b border-brand-red/50 hover:border-brand-red"
@@ -135,7 +158,7 @@ export function CategoryGrid() {
             <span>VIEW ALL SPORTS</span>
             <ArrowRight className="w-3.5 h-3.5 text-brand-red group-hover:translate-x-1 transition-transform" />
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -3,7 +3,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { GraduationCap, ShoppingCart, Users, Building2, ArrowRight, FileText } from "lucide-react";
+import { motion } from "framer-motion";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
+import { athleticEase, viewportDefault, revealUp, createStaggerContainer, staggerItem } from "@/lib/motion";
 
 // Custom 3-bar histogram icon for Coaching Academies matching mockup
 function AcademyBarChartIcon({ className = "w-7 h-7" }: { className?: string }) {
@@ -100,7 +102,13 @@ export function WhoWeServe() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Section Header & Floating Pill */}
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 lg:mb-16 gap-6">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 lg:mb-16 gap-6"
+          >
             <div className="space-y-3 max-w-2xl">
               <div className="inline-block">
                 <span className="inline-flex items-center px-3 py-1 rounded-[4px] border border-brand-red/60 bg-brand-red/10 text-brand-red text-[11px] font-black uppercase tracking-widest">
@@ -134,15 +142,24 @@ export function WhoWeServe() {
                 <div className="w-6 h-[2px] bg-brand-red mt-1" />
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Row 1: 3 Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 mb-5 lg:mb-6">
+          <motion.div
+            variants={createStaggerContainer(0.08, 0.1)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 mb-5 lg:mb-6"
+          >
             {ROW_1_CARDS.map((aud) => (
-              <div
+              <motion.div
                 key={aud.num}
+                variants={staggerItem}
+                whileHover={{ y: -5, scale: 1.015 }}
+                transition={{ duration: 0.25, ease: athleticEase }}
                 onClick={() => handleEnquireBuyer(aud.modalTopic)}
-                className="relative rounded-2xl overflow-hidden border border-[#222222] hover:border-brand-red/80 bg-[#0C0C0C]/90 backdrop-blur-md transition-all duration-300 group shadow-2xl flex flex-col justify-between p-6 sm:p-7 min-h-[185px] hover:-translate-y-1 hover:shadow-brand-glow cursor-pointer"
+                className="relative rounded-2xl overflow-hidden border border-[#222222] hover:border-brand-red/80 bg-[#0C0C0C]/90 backdrop-blur-md transition-colors duration-300 group shadow-2xl flex flex-col justify-between p-6 sm:p-7 min-h-[185px] hover:shadow-brand-glow cursor-pointer"
               >
                 {/* Right Photographic Visual with Soft Dark Fade */}
                 <div className="absolute top-0 right-0 bottom-0 w-[55%] sm:w-[50%] overflow-hidden pointer-events-none z-0">
@@ -184,17 +201,26 @@ export function WhoWeServe() {
                     </span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Row 2: 2 Wider Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 mb-12 lg:mb-16">
+          <motion.div
+            variants={createStaggerContainer(0.08, 0.1)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 mb-12 lg:mb-16"
+          >
             {ROW_2_CARDS.map((aud) => (
-              <div
+              <motion.div
                 key={aud.num}
+                variants={staggerItem}
+                whileHover={{ y: -5, scale: 1.015 }}
+                transition={{ duration: 0.25, ease: athleticEase }}
                 onClick={() => handleEnquireBuyer(aud.modalTopic)}
-                className="relative rounded-2xl overflow-hidden border border-[#222222] hover:border-brand-red/80 bg-[#0C0C0C]/90 backdrop-blur-md transition-all duration-300 group shadow-2xl flex flex-col justify-between p-6 sm:p-7 min-h-[185px] hover:-translate-y-1 hover:shadow-brand-glow cursor-pointer"
+                className="relative rounded-2xl overflow-hidden border border-[#222222] hover:border-brand-red/80 bg-[#0C0C0C]/90 backdrop-blur-md transition-colors duration-300 group shadow-2xl flex flex-col justify-between p-6 sm:p-7 min-h-[185px] hover:shadow-brand-glow cursor-pointer"
               >
                 {/* Right Photographic Visual with Soft Dark Fade */}
                 <div className="absolute top-0 right-0 bottom-0 w-[55%] sm:w-[50%] overflow-hidden pointer-events-none z-0">
@@ -235,12 +261,18 @@ export function WhoWeServe() {
                     </span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Bottom Full-Width CTA Banner matching mockup */}
-          <div className="relative rounded-2xl overflow-hidden border border-[#222222] bg-[#0A0A0A]/90 backdrop-blur-md p-6 sm:p-8 lg:p-10 shadow-2xl">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="relative rounded-2xl overflow-hidden border border-[#222222] bg-[#0A0A0A]/90 backdrop-blur-md p-6 sm:p-8 lg:p-10 shadow-2xl"
+          >
             {/* Red top glow accent line */}
             <div className="absolute top-0 left-8 right-8 h-[2px] bg-gradient-to-r from-transparent via-brand-red to-transparent opacity-80" />
 
@@ -258,18 +290,21 @@ export function WhoWeServe() {
               </div>
 
               <div className="flex-shrink-0">
-                <button
+                <motion.button
                   type="button"
+                  whileHover={{ scale: 1.025 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.18, ease: athleticEase }}
                   onClick={() => handleEnquireBuyer("Institutional & Team Wholesale Order")}
-                  className="w-full sm:w-auto px-7 sm:px-9 py-4 rounded-xl bg-gradient-to-r from-brand-red via-brand-red to-[#B30006] hover:brightness-110 text-white font-black text-xs sm:text-sm uppercase tracking-wider inline-flex items-center justify-center gap-3 shadow-xl shadow-brand-red/35 transition-all transform hover:-translate-y-0.5 active:scale-95 cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-red"
+                  className="w-full sm:w-auto px-7 sm:px-9 py-4 rounded-xl bg-gradient-to-r from-brand-red via-brand-red to-[#B30006] hover:brightness-110 text-white font-black text-xs sm:text-sm uppercase tracking-wider inline-flex items-center justify-center gap-3 shadow-xl shadow-brand-red/35 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-red"
                 >
                   <FileText className="w-4 h-4 text-white" />
                   <span>DISCUSS A BULK ORDER</span>
                   <ArrowRight className="w-4 h-4 text-white" />
-                </button>
+                </motion.button>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 

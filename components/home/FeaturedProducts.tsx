@@ -3,7 +3,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { ArrowRight, Heart } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
+import { ProductImageWithFallback } from "@/components/ui/ProductImageWithFallback";
+import { athleticEase, athleticSnappy, viewportDefault, revealUp, createStaggerContainer, staggerItem } from "@/lib/motion";
 
 // --- Vector Athletic Icons strictly matching mockup ---
 function AllProductsIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -444,7 +447,13 @@ export function FeaturedProducts() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="mb-8 sm:mb-10 max-w-2xl">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="mb-8 sm:mb-10 max-w-2xl"
+          >
             <div className="inline-block mb-3">
               <span className="inline-flex items-center px-3 py-1 rounded-[4px] border border-brand-red/60 bg-brand-red/10 text-brand-red text-[11px] font-black uppercase tracking-widest">
                 FEATURED PRODUCTS
@@ -459,20 +468,29 @@ export function FeaturedProducts() {
             <p className="text-xs sm:text-sm text-gray-300 font-medium leading-relaxed mt-3 max-w-xl">
               Explore our most in-demand products across all major sports. Built for teams, institutions, and bulk buyers.
             </p>
-          </div>
+          </motion.div>
 
           {/* Category Filter Pills Bar - exactly matching mockup icons and layout */}
-          <div className="flex items-center gap-2.5 overflow-x-auto no-scrollbar pb-3 mb-8 sm:mb-10">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="flex items-center gap-2.5 overflow-x-auto no-scrollbar pb-3 mb-8 sm:mb-10"
+          >
             {CATEGORIES.map((cat) => {
               const isActive = activeCategory === cat.id;
               const IconComp = cat.icon;
 
               return (
-                <button
+                <motion.button
                   key={cat.id}
                   type="button"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.15, ease: athleticSnappy }}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all duration-200 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-brand-red cursor-pointer ${
+                  className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-colors duration-200 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-brand-red cursor-pointer ${
                     isActive
                       ? "bg-brand-red text-white shadow-lg shadow-brand-red/30"
                       : "bg-[#141414]/90 hover:bg-[#1F1F1F] text-gray-300 hover:text-white border border-[#262626]"
@@ -480,101 +498,128 @@ export function FeaturedProducts() {
                 >
                   <IconComp className={`w-4 h-4 ${isActive ? "text-white" : ""}`} />
                   <span>{cat.label}</span>
-                </button>
+                </motion.button>
               );
             })}
-          </div>
+          </motion.div>
 
-          {/* Product Cards 4-Column Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-            {currentProducts.map((product) => {
-              const isFav = !!favorites[product.id];
+          {/* Product Cards 4-Column Grid with Smooth Tab Switch Transitions */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCategory}
+              variants={createStaggerContainer(0.07, 0.05)}
+              initial="hidden"
+              animate="visible"
+              exit={{ opacity: 0, y: 10, transition: { duration: 0.18 } }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6"
+            >
+              {currentProducts.map((product) => {
+                const isFav = !!favorites[product.id];
 
-              return (
-                <div
-                  key={product.id}
-                  className="rounded-xl overflow-hidden border border-[#202020] hover:border-brand-red/70 bg-[#0C0C0C] transition-all duration-300 group shadow-2xl flex flex-col justify-between hover:-translate-y-1 hover:shadow-brand-glow"
-                >
-                  {/* Card Visual & Overlays */}
-                  <div className="relative aspect-[1.12/1] w-full overflow-hidden bg-[#141414]">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                    />
-
-                    {/* Dark gradient for overlay legibility */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30 pointer-events-none" />
-
-                    {/* Category Badge overlay on top left */}
-                    <div className="absolute top-3 left-3 z-10">
-                      <span className="inline-block bg-black/80 backdrop-blur-md border border-white/20 text-[10px] font-black uppercase tracking-wider text-white px-2.5 py-1 rounded-[4px]">
-                        {product.categoryTag}
-                      </span>
-                    </div>
-
-                    {/* Wishlist / Heart button on top right */}
-                    <button
-                      type="button"
-                      onClick={(e) => toggleFavorite(product.id, e)}
-                      aria-label={`Save ${product.name} to wishlist`}
-                      className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer"
-                    >
-                      <Heart
-                        className={`w-4 h-4 transition-colors ${
-                          isFav ? "fill-brand-red text-brand-red" : "text-white hover:text-brand-red"
-                        }`}
+                return (
+                  <motion.div
+                    key={product.id}
+                    variants={staggerItem}
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.25, ease: athleticEase }}
+                    className="rounded-xl overflow-hidden border border-[#202020] hover:border-brand-red/70 bg-[#0C0C0C] transition-colors duration-300 group shadow-2xl flex flex-col justify-between hover:shadow-brand-glow"
+                  >
+                    {/* Card Visual & Overlays */}
+                    <div className="relative aspect-[1.12/1] w-full overflow-hidden bg-[#141414]">
+                      <ProductImageWithFallback
+                        src={product.image}
+                        alt={product.name}
+                        categoryTag={product.categoryTag}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       />
-                    </button>
-                  </div>
 
-                  {/* Card Body */}
-                  <div className="p-4 sm:p-5 flex flex-col justify-between flex-grow space-y-4">
-                    <div className="space-y-1.5">
-                      <h3 className="text-base font-bold text-white group-hover:text-brand-red transition-colors line-clamp-1">
-                        {product.slug ? (
-                          <a href={`/products/${product.slug}`} className="hover:underline">
-                            {product.name}
-                          </a>
-                        ) : (
-                          product.name
-                        )}
-                      </h3>
-                      <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed min-h-[34px]">
-                        {product.description}
-                      </p>
+                      {/* Dark gradient for overlay legibility */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30 pointer-events-none" />
+
+                      {/* Category Badge overlay on top left */}
+                      <div className="absolute top-3 left-3 z-10">
+                        <span className="inline-block bg-black/80 backdrop-blur-md border border-white/20 text-[10px] font-black uppercase tracking-wider text-white px-2.5 py-1 rounded-[4px]">
+                          {product.categoryTag}
+                        </span>
+                      </div>
+
+                      {/* Wishlist / Heart button on top right */}
+                      <motion.button
+                        type="button"
+                        whileHover={{ scale: 1.15 }}
+                        whileTap={{ scale: 0.85 }}
+                        transition={{ duration: 0.15 }}
+                        onClick={(e) => toggleFavorite(product.id, e)}
+                        aria-label={`Save ${product.name} to wishlist`}
+                        className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md border border-white/20 flex items-center justify-center transition-colors cursor-pointer"
+                      >
+                        <Heart
+                          className={`w-4 h-4 transition-colors ${
+                            isFav ? "fill-brand-red text-brand-red" : "text-white hover:text-brand-red"
+                          }`}
+                        />
+                      </motion.button>
                     </div>
 
-                    {/* Red Primary Action Button matching mockup */}
-                    <button
-                      type="button"
-                      onClick={() => handleQuoteClick(product.name)}
-                      className="w-full py-2.5 px-4 rounded-lg bg-brand-red hover:bg-brand-redHover text-white font-bold text-xs uppercase tracking-wider flex items-center justify-between transition-all duration-200 shadow-md shadow-brand-red/25 group/btn cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-red"
-                    >
-                      <span className="flex items-center gap-2">
-                        <GaugeIcon className="w-4 h-4 text-white" />
-                        <span>Request Bulk Quote</span>
-                      </span>
-                      <ArrowRight className="w-3.5 h-3.5 transform group-hover/btn:translate-x-1 transition-transform" />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                    {/* Card Body */}
+                    <div className="p-4 sm:p-5 flex flex-col justify-between flex-grow space-y-4">
+                      <div className="space-y-1.5">
+                        <h3 className="text-base font-bold text-white group-hover:text-brand-red transition-colors line-clamp-1">
+                          {product.slug ? (
+                            <a href={`/products/${product.slug}`} className="hover:underline">
+                              {product.name}
+                            </a>
+                          ) : (
+                            product.name
+                          )}
+                        </h3>
+                        <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed min-h-[34px]">
+                          {product.description}
+                        </p>
+                      </div>
+
+                      {/* Red Primary Action Button matching mockup */}
+                      <motion.button
+                        type="button"
+                        whileHover={{ scale: 1.015 }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ duration: 0.15, ease: athleticSnappy }}
+                        onClick={() => handleQuoteClick(product.name)}
+                        className="w-full py-2.5 px-4 rounded-lg bg-brand-red hover:bg-brand-redHover text-white font-bold text-xs uppercase tracking-wider flex items-center justify-between transition-colors duration-200 shadow-md shadow-brand-red/25 group/btn cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-red"
+                      >
+                        <span className="flex items-center gap-2">
+                          <GaugeIcon className="w-4 h-4 text-white" />
+                          <span>Request Bulk Quote</span>
+                        </span>
+                        <ArrowRight className="w-3.5 h-3.5 transform group-hover/btn:translate-x-1 transition-transform" />
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          </AnimatePresence>
 
           {/* Centered Outline Action matching mockup */}
-          <div className="mt-12 text-center">
-            <a
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="mt-12 text-center"
+          >
+            <motion.a
               href="/products"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-[#0F0F0F] border border-brand-red/50 hover:border-brand-red hover:bg-brand-red/10 text-white font-black text-xs uppercase tracking-wider transition-all duration-300 shadow-xl group cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-red"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18, ease: athleticSnappy }}
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-[#0F0F0F] border border-brand-red/50 hover:border-brand-red hover:bg-brand-red/10 text-white font-black text-xs uppercase tracking-wider transition-colors duration-300 shadow-xl group cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-red"
             >
               <span>VIEW ALL PRODUCTS</span>
               <ArrowRight className="w-4 h-4 text-brand-red group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
         </div>
       </section>
 

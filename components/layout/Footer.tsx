@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MessageSquare, ChevronRight, ArrowRight, ShieldCheck, Mail, Users } from "lucide-react";
+import { motion } from "framer-motion";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
+import { athleticEase, viewportDefault, createStaggerContainer, staggerItem } from "@/lib/motion";
 import { generateWhatsAppUrl, buildGeneralBulkEnquiryMessage, hasConfiguredWhatsApp } from "@/lib/whatsapp";
 
 function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -69,9 +71,15 @@ export function Footer() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
           {/* 4 Column Responsive Grid matching mockup */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+          <motion.div
+            variants={createStaggerContainer(0.08, 0.1)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8"
+          >
             {/* COLUMN 1: BRAND, TAGLINE, DESCRIPTION & CTA (4 cols on lg) */}
-            <div className="lg:col-span-4 space-y-4">
+            <motion.div variants={staggerItem} className="lg:col-span-4 space-y-4">
               {/* Brand Logo - 100% Transparent on Dark Footer */}
               <Link href="/" className="inline-block" aria-label="ProBird Sports Home">
                 <div className="relative h-14 w-48 sm:w-56 flex items-center transition-transform duration-200 hover:scale-[1.03]">
@@ -101,17 +109,17 @@ export function Footer() {
                 <button
                   type="button"
                   onClick={() => handleOpenModal("Wholesale Equipment Request")}
-                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-lg border border-brand-red text-white text-xs font-bold uppercase tracking-wider bg-black/40 hover:bg-brand-red/15 transition-all group shadow-sm hover:shadow-[0_0_20px_rgba(224,24,35,0.35)] focus:outline-none focus:ring-2 focus:ring-brand-red"
+                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-lg border border-brand-red text-white text-xs font-bold uppercase tracking-wider bg-black/40 hover:bg-brand-red/15 transition-all group shadow-sm hover:shadow-[0_0_20px_rgba(224,24,35,0.35)] focus:outline-none focus:ring-2 focus:ring-brand-red cursor-pointer"
                 >
                   <MessageSquare className="w-4 h-4 text-brand-red shrink-0" />
                   <span>REQUEST WHOLESALE QUOTATION</span>
                   <ChevronRight className="w-4 h-4 text-brand-red shrink-0 group-hover:translate-x-0.5 transition-transform" />
                 </button>
               </div>
-            </div>
+            </motion.div>
 
             {/* COLUMN 2: EQUIPMENT CATEGORIES (2.5 cols on lg) */}
-            <div className="lg:col-span-3 space-y-3">
+            <motion.div variants={staggerItem} className="lg:col-span-3 space-y-3">
               <div>
                 <h3 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white font-display">
                   EQUIPMENT CATEGORIES
@@ -131,10 +139,10 @@ export function Footer() {
                   </Link>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* COLUMN 3: INSTITUTIONAL PATHWAYS (2.5 cols on lg) */}
-            <div className="lg:col-span-2 space-y-3">
+            <motion.div variants={staggerItem} className="lg:col-span-2 space-y-3">
               <div>
                 <h3 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white font-display">
                   INSTITUTIONAL PATHWAYS
@@ -154,10 +162,10 @@ export function Footer() {
                   </Link>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* COLUMN 4: TALK TO OUR TEAM (3 cols on lg) */}
-            <div className="lg:col-span-3 space-y-3.5">
+            <motion.div variants={staggerItem} className="lg:col-span-3 space-y-3.5">
               <div>
                 <h3 className="text-xs sm:text-[13px] font-black uppercase tracking-wider text-white font-display">
                   TALK TO OUR TEAM
@@ -197,7 +205,7 @@ export function Footer() {
                 <button
                   type="button"
                   onClick={() => handleOpenModal("Institutional Sports Equipment Supply Division")}
-                  className="w-full flex items-center justify-between py-1.5 text-xs sm:text-[13px] text-gray-300 hover:text-white transition-colors group text-left"
+                  className="w-full flex items-center justify-between py-1.5 text-xs sm:text-[13px] text-gray-300 hover:text-white transition-colors group text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-2.5">
                     <Users className="w-4 h-4 text-brand-red shrink-0" />
@@ -221,8 +229,8 @@ export function Footer() {
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* BOTTOM COPYRIGHT & LEGAL BAR matching mockup */}
           <div className="mt-14 pt-8 border-t border-[#1C1C1C] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">

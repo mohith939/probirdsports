@@ -15,8 +15,7 @@ import { motion } from "framer-motion";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
 import { generateWhatsAppUrl, buildGeneralBulkEnquiryMessage, hasConfiguredWhatsApp } from "@/lib/whatsapp";
 
-// Athletic explosive spring & acceleration curves
-const athleticEase = [0.16, 1, 0.3, 1] as const;
+import { athleticEase, viewportDefault } from "@/lib/motion";
 
 const containerVariants = {
   hidden: { opacity: 0 },

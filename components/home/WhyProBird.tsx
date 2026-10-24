@@ -3,7 +3,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Trophy, Layers, ShieldCheck, Zap, Package } from "lucide-react";
+import { motion } from "framer-motion";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
+import { athleticEase, viewportDefault, revealUp, createStaggerContainer, staggerItem } from "@/lib/motion";
 
 // Authentic WhatsApp SVG Icon matching brand & mockup
 function WhatsAppChatIcon({ className = "w-5 h-5" }: { className?: string }) {
@@ -111,7 +113,13 @@ export function WhyProBird() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header exactly matching mockup */}
-          <div className="mb-12 lg:mb-16 max-w-2xl space-y-3">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="mb-12 lg:mb-16 max-w-2xl space-y-3"
+          >
             <div className="inline-block">
               <span className="inline-flex items-center px-3 py-1 rounded-[4px] border border-brand-red/60 bg-brand-red/10 text-brand-red text-[11px] font-black uppercase tracking-widest">
                 WHY PROBIRD SPORTS
@@ -126,15 +134,24 @@ export function WhyProBird() {
             <p className="text-xs sm:text-sm text-gray-300 font-bold tracking-wider uppercase leading-relaxed pt-1">
               A TRUSTED PARTNER FOR TEAMS, INSTITUTIONS AND BULK BUYERS.
             </p>
-          </div>
+          </motion.div>
 
           {/* 6 Value Cards in 3x2 Responsive Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          <motion.div
+            variants={createStaggerContainer(0.08, 0.1)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
+          >
             {PILLARS.map((pillar) => (
-              <div
+              <motion.div
                 key={pillar.id}
+                variants={staggerItem}
+                whileHover={{ y: -5, scale: 1.015 }}
+                transition={{ duration: 0.25, ease: athleticEase }}
                 onClick={() => handlePillarClick(pillar.actionTitle || pillar.title)}
-                className="relative rounded-xl overflow-hidden border border-[#202020] hover:border-brand-red/70 bg-[#0C0C0C] transition-all duration-300 group shadow-2xl flex flex-col justify-between p-5 sm:p-6 min-h-[145px] hover:-translate-y-1 hover:shadow-brand-glow cursor-pointer"
+                className="relative rounded-xl overflow-hidden border border-[#202020] hover:border-brand-red/70 bg-[#0C0C0C] transition-colors duration-300 group shadow-2xl flex flex-col justify-between p-5 sm:p-6 min-h-[145px] hover:shadow-brand-glow cursor-pointer"
               >
                 {/* Red Triangle Accent on Top-Right Corner */}
                 <svg
@@ -177,9 +194,9 @@ export function WhyProBird() {
                     {pillar.description}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 

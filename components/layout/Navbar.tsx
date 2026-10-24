@@ -20,6 +20,8 @@ import {
 } from "lucide-react";
 import { CATEGORIES } from "@/data/products";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
+import { motion, AnimatePresence } from "framer-motion";
+import { athleticEase } from "@/lib/motion";
 
 const categoryIcons: Record<string, React.ReactNode> = {
   cricket: <Flame className="w-4 h-4 text-brand-red" />,
@@ -172,70 +174,76 @@ export function Navbar() {
                       </button>
 
                       {/* Accessible Mega-Dropdown */}
-                      {productsDropdownOpen && (
-                        <div
-                          ref={dropdownRef}
-                          id="desktop-products-dropdown"
-                          role="menu"
-                          aria-orientation="vertical"
-                          className="absolute left-0 mt-2 w-80 sm:w-96 rounded-xl bg-[#141414] border border-[#262626] shadow-2xl p-3 z-50 animate-fade-in"
-                        >
-                          <div className="px-3 py-2 border-b border-[#222222] mb-2 flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                              Sports Categories
-                            </span>
-                            <a
-                              href="/products"
-                              className="text-xs text-brand-red hover:underline font-medium inline-flex items-center gap-1"
-                            >
-                              All Equipment <ArrowRight className="w-3 h-3" />
-                            </a>
-                          </div>
-
-                          <div className="grid grid-cols-1 gap-1">
-                            {CATEGORIES.map((cat) => (
+                      <AnimatePresence>
+                        {productsDropdownOpen && (
+                          <motion.div
+                            ref={dropdownRef}
+                            id="desktop-products-dropdown"
+                            role="menu"
+                            aria-orientation="vertical"
+                            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                            transition={{ duration: 0.2, ease: athleticEase }}
+                            className="absolute left-0 mt-2 w-80 sm:w-96 rounded-xl bg-[#141414] border border-[#262626] shadow-2xl p-3 z-50"
+                          >
+                            <div className="px-3 py-2 border-b border-[#222222] mb-2 flex items-center justify-between">
+                              <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                                Sports Categories
+                              </span>
                               <a
-                                key={cat.id}
-                                href={`/products?category=${cat.id}`}
-                                role="menuitem"
-                                onClick={() => setProductsDropdownOpen(false)}
-                                className="flex items-center justify-between p-2.5 rounded-lg hover:bg-[#1E1E1E] transition-colors group"
+                                href="/products"
+                                className="text-xs text-brand-red hover:underline font-medium inline-flex items-center gap-1"
                               >
-                                <div className="flex items-center gap-3">
-                                  <div className="w-7 h-7 rounded-md bg-[#222222] flex items-center justify-center group-hover:bg-brand-red/10 transition-colors">
-                                    {categoryIcons[cat.id]}
-                                  </div>
-                                  <div>
-                                    <div className="text-sm font-medium text-gray-200 group-hover:text-white">
-                                      {cat.name}
-                                    </div>
-                                    <div className="text-[11px] text-gray-400 line-clamp-1">
-                                      {cat.tagline}
-                                    </div>
-                                  </div>
-                                </div>
-                                <span className="text-[11px] font-mono text-gray-400 bg-[#1C1C1C] px-1.5 py-0.5 rounded">
-                                  {cat.productCount}
-                                </span>
+                                All Equipment <ArrowRight className="w-3 h-3" />
                               </a>
-                            ))}
-                          </div>
+                            </div>
 
-                          <div className="mt-3 pt-2.5 border-t border-[#222222] bg-[#0E0E0E] -mx-3 -mb-3 p-3 rounded-b-xl flex items-center justify-between">
-                            <span className="text-xs text-gray-400">Institutional wholesale quotes</span>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setProductsDropdownOpen(false);
-                                setQuoteModalOpen(true);
-                              }}
-                              className="text-xs font-semibold text-brand-red hover:text-white transition-colors"
-                            >
-                              Quick Quote &rarr;
-                            </button>
-                          </div>
-                        </div>
-                      )}
+                            <div className="grid grid-cols-1 gap-1">
+                              {CATEGORIES.map((cat) => (
+                                <a
+                                  key={cat.id}
+                                  href={`/products?category=${cat.id}`}
+                                  role="menuitem"
+                                  onClick={() => setProductsDropdownOpen(false)}
+                                  className="flex items-center justify-between p-2.5 rounded-lg hover:bg-[#1E1E1E] transition-colors group"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-7 h-7 rounded-md bg-[#222222] flex items-center justify-center group-hover:bg-brand-red/10 transition-colors">
+                                      {categoryIcons[cat.id]}
+                                    </div>
+                                    <div>
+                                      <div className="text-sm font-medium text-gray-200 group-hover:text-white">
+                                        {cat.name}
+                                      </div>
+                                      <div className="text-[11px] text-gray-400 line-clamp-1">
+                                        {cat.tagline}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <span className="text-[11px] font-mono text-gray-400 bg-[#1C1C1C] px-1.5 py-0.5 rounded">
+                                    {cat.productCount}
+                                  </span>
+                                </a>
+                              ))}
+                            </div>
+
+                            <div className="mt-3 pt-2.5 border-t border-[#222222] bg-[#0E0E0E] -mx-3 -mb-3 p-3 rounded-b-xl flex items-center justify-between">
+                              <span className="text-xs text-gray-400">Institutional wholesale quotes</span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setProductsDropdownOpen(false);
+                                  setQuoteModalOpen(true);
+                                }}
+                                className="text-xs font-semibold text-brand-red hover:text-white transition-colors"
+                              >
+                                Quick Quote &rarr;
+                              </button>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 }
@@ -261,14 +269,16 @@ export function Navbar() {
 
             {/* FAR RIGHT CTA */}
             <div className="hidden sm:flex items-center gap-3">
-              <button
+              <motion.button
                 type="button"
+                whileHover={{ scale: 1.025 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={() => setQuoteModalOpen(true)}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-sm font-bold tracking-wide uppercase bg-brand-red hover:bg-brand-redHover text-white shadow-md shadow-brand-red/20 transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 focus:ring-offset-black"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-sm font-bold tracking-wide uppercase bg-brand-red hover:bg-brand-redHover text-white shadow-md shadow-brand-red/20 transition-all focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 focus:ring-offset-black cursor-pointer"
               >
                 <MessageSquare className="w-4 h-4" />
                 <span>Request a Bulk Quote</span>
-              </button>
+              </motion.button>
             </div>
 
             {/* MOBILE HAMBURGER BUTTON */}
@@ -296,95 +306,101 @@ export function Navbar() {
         </div>
 
         {/* MOBILE MENU PANEL */}
-        {mobileMenuOpen && (
-          <div
-            id="mobile-navigation-menu"
-            className="md:hidden border-t border-[#222222] bg-[#0E0E0E] px-4 pt-3 pb-6 space-y-3 animate-fade-in"
-          >
-            <div className="space-y-1">
-              <a
-                href="/"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3.5 py-2.5 rounded-lg text-base font-semibold ${
-                  isActive("/") ? "bg-[#1C1C1C] text-white" : "text-gray-300 hover:bg-[#181818]"
-                }`}
-              >
-                Home
-              </a>
-
-              {/* Mobile Products Sub-menu */}
-              <div>
-                <button
-                  type="button"
-                  onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-base font-semibold text-gray-300 hover:bg-[#181818]"
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              id="mobile-navigation-menu"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.28, ease: athleticEase }}
+              className="md:hidden border-t border-[#222222] bg-[#0E0E0E] px-4 pt-3 pb-6 space-y-3 overflow-hidden"
+            >
+              <div className="space-y-1">
+                <a
+                  href="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-3.5 py-2.5 rounded-lg text-base font-semibold ${
+                    isActive("/") ? "bg-[#1C1C1C] text-white" : "text-gray-300 hover:bg-[#181818]"
+                  }`}
                 >
-                  <span>Products</span>
-                  <ChevronDown
-                    className={`w-5 h-5 transition-transform ${mobileProductsOpen ? "rotate-180 text-brand-red" : ""}`}
-                  />
-                </button>
+                  Home
+                </a>
 
-                {mobileProductsOpen && (
-                  <div className="pl-4 pr-2 py-1 space-y-1 bg-[#141414] rounded-lg mt-1 border border-[#222]">
-                    <a
-                      href="/products"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block px-3 py-2 text-sm font-semibold text-brand-red hover:underline"
-                    >
-                      Browse All Equipment &rarr;
-                    </a>
-                    {CATEGORIES.map((cat) => (
+                {/* Mobile Products Sub-menu */}
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                    className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-base font-semibold text-gray-300 hover:bg-[#181818]"
+                  >
+                    <span>Products</span>
+                    <ChevronDown
+                      className={`w-5 h-5 transition-transform ${mobileProductsOpen ? "rotate-180 text-brand-red" : ""}`}
+                    />
+                  </button>
+
+                  {mobileProductsOpen && (
+                    <div className="pl-4 pr-2 py-1 space-y-1 bg-[#141414] rounded-lg mt-1 border border-[#222]">
                       <a
-                        key={cat.id}
-                        href={`/products?category=${cat.id}`}
+                        href="/products"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#202020] rounded-md"
+                        className="block px-3 py-2 text-sm font-semibold text-brand-red hover:underline"
                       >
-                        {categoryIcons[cat.id]}
-                        <span>{cat.name}</span>
+                        Browse All Equipment &rarr;
                       </a>
-                    ))}
-                  </div>
-                )}
+                      {CATEGORIES.map((cat) => (
+                        <a
+                          key={cat.id}
+                          href={`/products?category=${cat.id}`}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#202020] rounded-md"
+                        >
+                          {categoryIcons[cat.id]}
+                          <span>{cat.name}</span>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <a
+                  href="/about"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-3.5 py-2.5 rounded-lg text-base font-semibold ${
+                    isActive("/about") ? "bg-[#1C1C1C] text-white" : "text-gray-300 hover:bg-[#181818]"
+                  }`}
+                >
+                  About Us
+                </a>
+
+                <a
+                  href="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-3.5 py-2.5 rounded-lg text-base font-semibold ${
+                    isActive("/contact") ? "bg-[#1C1C1C] text-white" : "text-gray-300 hover:bg-[#181818]"
+                  }`}
+                >
+                  Contact
+                </a>
               </div>
 
-              <a
-                href="/about"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3.5 py-2.5 rounded-lg text-base font-semibold ${
-                  isActive("/about") ? "bg-[#1C1C1C] text-white" : "text-gray-300 hover:bg-[#181818]"
-                }`}
-              >
-                About Us
-              </a>
-
-              <a
-                href="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3.5 py-2.5 rounded-lg text-base font-semibold ${
-                  isActive("/contact") ? "bg-[#1C1C1C] text-white" : "text-gray-300 hover:bg-[#181818]"
-                }`}
-              >
-                Contact
-              </a>
-            </div>
-
-            <div className="pt-3 border-t border-[#222222]">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setQuoteModalOpen(true);
-                }}
-                className="w-full py-3 px-4 rounded-md bg-brand-red hover:bg-brand-redHover text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-red/20"
-              >
-                <MessageSquare className="w-4 h-4" />
-                <span>Request a Bulk Quote</span>
-              </button>
-            </div>
-          </div>
-        )}
+              <div className="pt-3 border-t border-[#222222]">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setQuoteModalOpen(true);
+                  }}
+                  className="w-full py-3 px-4 rounded-md bg-brand-red hover:bg-brand-redHover text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-brand-red/20"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  <span>Request a Bulk Quote</span>
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Global Bulk Quote Modal */}

@@ -3,7 +3,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { ShieldCheck, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
+import { athleticEase, viewportDefault, revealUp, createStaggerContainer, staggerItem } from "@/lib/motion";
 
 interface StepItem {
   num: string;
@@ -79,7 +81,13 @@ export function HowItWorks() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header exactly matching mockup */}
-          <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-16 space-y-3.5">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="text-center max-w-3xl mx-auto mb-14 lg:mb-16 space-y-3.5"
+          >
             {/* Outlined Badge */}
             <div className="inline-block">
               <span className="inline-flex items-center px-4 py-1 rounded-[2px] border border-brand-red/80 bg-brand-red/10 text-brand-red text-xs sm:text-[13px] font-bold uppercase tracking-[0.2em]">
@@ -96,20 +104,33 @@ export function HowItWorks() {
             <p className="text-sm sm:text-base text-gray-300 font-medium tracking-wide">
               A clear, three-step process for institutional sports buyers.
             </p>
-          </div>
+          </motion.div>
 
           {/* 3 Step Cards in Row with Connecting Pipeline */}
           <div className="relative max-w-5xl mx-auto mb-12">
             {/* Connecting red pipeline line across the cards on desktop */}
-            <div
+            <motion.div
               aria-hidden="true"
-              className="hidden md:block absolute top-[7.85%] left-[10%] right-[10%] h-[2px] bg-brand-red/90 z-0 pointer-events-none shadow-[0_0_8px_rgba(224,24,35,0.6)]"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={viewportDefault}
+              transition={{ duration: 0.8, ease: athleticEase }}
+              className="hidden md:block absolute top-[7.85%] left-[10%] right-[10%] h-[2px] bg-brand-red/90 z-0 pointer-events-none shadow-[0_0_8px_rgba(224,24,35,0.6)] origin-left"
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-6 relative z-10">
+            <motion.div
+              variants={createStaggerContainer(0.12, 0.1)}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportDefault}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-6 relative z-10"
+            >
               {STEPS.map((step) => (
-                <div
+                <motion.div
                   key={step.num}
+                  variants={staggerItem}
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  transition={{ duration: 0.25, ease: athleticEase }}
                   onClick={() => handleStepClick(step.actionTopic)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
@@ -120,7 +141,7 @@ export function HowItWorks() {
                   tabIndex={0}
                   role="button"
                   aria-label={`Step ${step.num}: ${step.title}. ${step.description}. Click to request a quote.`}
-                  className="group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_35px_rgba(224,24,35,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-red"
+                  className="group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-[0_0_35px_rgba(224,24,35,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-red"
                 >
                   <Image
                     src={step.image}
@@ -134,13 +155,19 @@ export function HowItWorks() {
                   <span className="sr-only">
                     {step.num} - {step.title}: {step.description}
                   </span>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
 
           {/* Operational Policy Disclaimer Pill matching mockup */}
-          <div className="text-center mb-10">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="text-center mb-10"
+          >
             <div className="inline-flex items-center gap-3 px-5 sm:px-6 py-2.5 rounded-lg bg-[#0C0C0C]/85 border border-[#2B2B2B] shadow-lg backdrop-blur-sm max-w-2xl mx-auto text-left sm:text-center">
               <div className="text-brand-red shrink-0">
                 <ShieldCheck className="w-5 h-5 text-brand-red" />
@@ -150,19 +177,28 @@ export function HowItWorks() {
                 Final pricing, availability and lead times are confirmed in your individual quotation.
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Chamfered CTA Button matching mockup */}
-          <div className="text-center">
-            <button
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="text-center"
+          >
+            <motion.button
               type="button"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18, ease: athleticEase }}
               onClick={handleStartEnquiry}
-              className="group relative inline-flex items-center gap-3 px-9 py-4 bg-brand-red hover:bg-brand-redHover text-white font-black font-display text-sm sm:text-base uppercase tracking-wider transition-all duration-300 shadow-[0_0_35px_rgba(224,24,35,0.45)] hover:shadow-[0_0_50px_rgba(224,24,35,0.7)] hover:scale-105 active:scale-95 [clip-path:polygon(10px_0,calc(100%-10px)_0,100%_10px,100%_calc(100%-10px),calc(100%-10px)_100%,10px_100%,0_calc(100%-10px),0_10px)]"
+              className="group relative inline-flex items-center gap-3 px-9 py-4 bg-brand-red hover:bg-brand-redHover text-white font-black font-display text-sm sm:text-base uppercase tracking-wider transition-colors duration-300 shadow-[0_0_35px_rgba(224,24,35,0.45)] hover:shadow-[0_0_50px_rgba(224,24,35,0.7)] [clip-path:polygon(10px_0,calc(100%-10px)_0,100%_10px,100%_calc(100%-10px),calc(100%-10px)_100%,10px_100%,0_calc(100%-10px),0_10px)] cursor-pointer"
             >
               <span>START A BULK ENQUIRY</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </div>
       </section>
 

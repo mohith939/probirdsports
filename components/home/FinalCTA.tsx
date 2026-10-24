@@ -2,7 +2,9 @@
 
 import React, { useState } from "react";
 import { MessageSquare, ArrowRight, ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
+import { athleticEase, athleticSnappy, viewportDefault, revealUp } from "@/lib/motion";
 
 export function FinalCTA() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -11,7 +13,13 @@ export function FinalCTA() {
     <>
       <section className="py-20 lg:py-24 bg-[#0A0A0A] border-b border-[#1A1A1A]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="p-8 sm:p-14 lg:p-16 rounded-2xl bg-gradient-to-r from-[#141414] via-[#101010] to-[#171717] border border-[#262626] relative overflow-hidden">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="p-8 sm:p-14 lg:p-16 rounded-2xl bg-gradient-to-r from-[#141414] via-[#101010] to-[#171717] border border-[#262626] relative overflow-hidden"
+          >
             {/* Red streak background styling */}
             <div className="absolute top-0 right-0 w-80 h-full bg-gradient-to-l from-brand-red/10 to-transparent pointer-events-none" />
 
@@ -30,22 +38,28 @@ export function FinalCTA() {
               </p>
 
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                <button
+                <motion.button
                   type="button"
+                  whileHover={{ scale: 1.025 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.18, ease: athleticSnappy }}
                   onClick={() => setModalOpen(true)}
-                  className="px-8 py-4 rounded-md bg-brand-red hover:bg-brand-redHover text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl shadow-brand-red/25 transition-all transform hover:-translate-y-0.5"
+                  className="px-8 py-4 rounded-md bg-brand-red hover:bg-brand-redHover text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl shadow-brand-red/25 transition-colors cursor-pointer"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>Request a Bulk Quote</span>
-                </button>
+                </motion.button>
 
-                <a
+                <motion.a
                   href="/products"
-                  className="px-8 py-4 rounded-md bg-[#1F1F1F] hover:bg-[#2A2A2A] text-white font-bold text-xs uppercase tracking-wider border border-[#333333] flex items-center justify-center gap-2 transition-colors"
+                  whileHover={{ scale: 1.025 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.18, ease: athleticSnappy }}
+                  className="px-8 py-4 rounded-md bg-[#1F1F1F] hover:bg-[#2A2A2A] text-white font-bold text-xs uppercase tracking-wider border border-[#333333] flex items-center justify-center gap-2 transition-colors cursor-pointer"
                 >
                   <span>Explore Catalogue</span>
                   <ArrowRight className="w-4 h-4 text-gray-400" />
-                </a>
+                </motion.a>
               </div>
 
               <div className="pt-4 flex items-center gap-2 text-xs text-gray-400">
@@ -53,7 +67,7 @@ export function FinalCTA() {
                 <span>Zero retail intermediary markups &bull; Dedicated procurement support &bull; Verified standards</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 

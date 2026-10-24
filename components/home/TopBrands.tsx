@@ -3,7 +3,9 @@
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
+import { athleticEase, viewportDefault, revealUp, createStaggerContainer, staggerItem } from "@/lib/motion";
 
 interface BrandItem {
   id: string;
@@ -203,7 +205,13 @@ export function TopBrands() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header matching reference mockup */}
-          <div className="mb-12 space-y-3 max-w-2xl">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="mb-12 space-y-3 max-w-2xl"
+          >
             <div className="inline-block">
               <span className="inline-flex items-center px-3 py-1 rounded-[4px] border border-brand-red/60 bg-brand-red/10 text-brand-red text-[11px] font-black uppercase tracking-widest">
                 TRUSTED BRANDS
@@ -218,29 +226,39 @@ export function TopBrands() {
             <p className="text-xs sm:text-sm text-gray-300 font-medium leading-relaxed">
               Explore leading global brands with certified quality, reliable performance and equipment built for every level.
             </p>
-          </div>
+          </motion.div>
 
           {/* Carousel Slider Controls and Cards */}
-          <div className="relative">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="relative"
+          >
             {/* Left Nav Button */}
-            <button
+            <motion.button
               type="button"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => scroll("left")}
               aria-label="Previous brands"
-              className="absolute -left-3 sm:-left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/85 hover:bg-brand-red border border-white/25 hover:border-brand-red text-white flex items-center justify-center shadow-2xl transition-all hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-red"
+              className="absolute -left-3 sm:-left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/85 hover:bg-brand-red border border-white/25 hover:border-brand-red text-white flex items-center justify-center shadow-2xl transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-red"
             >
               <ChevronLeft className="w-5 h-5" />
-            </button>
+            </motion.button>
 
             {/* Right Nav Button */}
-            <button
+            <motion.button
               type="button"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => scroll("right")}
               aria-label="Next brands"
-              className="absolute -right-3 sm:-right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/85 hover:bg-brand-red border border-white/25 hover:border-brand-red text-white flex items-center justify-center shadow-2xl transition-all hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-red"
+              className="absolute -right-3 sm:-right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/85 hover:bg-brand-red border border-white/25 hover:border-brand-red text-white flex items-center justify-center shadow-2xl transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-red"
             >
               <ChevronRight className="w-5 h-5" />
-            </button>
+            </motion.button>
 
             {/* Scrollable Cards Container - scrollbar hidden completely across all browsers */}
             <div
@@ -252,11 +270,14 @@ export function TopBrands() {
               }}
             >
               {BRANDS.map((brand) => (
-                <button
+                <motion.button
                   key={brand.id}
                   type="button"
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.22, ease: athleticEase }}
                   onClick={() => handleBrandClick(brand.name)}
-                  className="flex-shrink-0 w-[170px] sm:w-[190px] h-[210px] sm:h-[230px] rounded-xl overflow-hidden border border-[#222222] hover:border-brand-red bg-[#101010]/90 backdrop-blur-md shadow-2xl transition-all duration-300 group flex flex-col justify-between p-5 text-left focus:outline-none focus:ring-2 focus:ring-brand-red snap-start hover:shadow-brand-glow hover:-translate-y-1"
+                  className="flex-shrink-0 w-[170px] sm:w-[190px] h-[210px] sm:h-[230px] rounded-xl overflow-hidden border border-[#222222] hover:border-brand-red bg-[#101010]/90 backdrop-blur-md shadow-2xl transition-colors duration-300 group flex flex-col justify-between p-5 text-left focus:outline-none focus:ring-2 focus:ring-brand-red snap-start hover:shadow-brand-glow cursor-pointer"
                 >
                   {/* Brand Center Mark - Cleanly Centered without the word Brand or dot */}
                   <div className="my-auto w-full flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
@@ -272,22 +293,31 @@ export function TopBrands() {
                       <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-white" />
                     </div>
                   </div>
-                </button>
+                </motion.button>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Centered Primary CTA Button matching reference mockup */}
-          <div className="mt-12 text-center">
-            <button
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="mt-12 text-center"
+          >
+            <motion.button
               type="button"
+              whileHover={{ scale: 1.025 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.18, ease: athleticEase }}
               onClick={() => handleBrandClick("Official Multi-Brand Bulk Supply")}
-              className="px-8 py-4 rounded-md bg-brand-red hover:bg-brand-redHover text-white font-black text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2.5 shadow-xl shadow-brand-red/30 transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-brand-red"
+              className="px-8 py-4 rounded-md bg-brand-red hover:bg-brand-redHover text-white font-black text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2.5 shadow-xl shadow-brand-red/30 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-red"
             >
               <span>VIEW ALL BRANDS</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </div>
       </section>
 

@@ -2,7 +2,9 @@
 
 import React, { useState } from "react";
 import { ChevronDown, HelpCircle, MessageSquare } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
+import { athleticEase, viewportDefault, revealUp, createStaggerContainer, staggerItem } from "@/lib/motion";
 
 interface FAQItem {
   question: string;
@@ -52,7 +54,13 @@ export function FAQAccordion() {
     <>
       <section className="py-20 lg:py-28 bg-[#0D0D0D] border-b border-[#1A1A1A]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 space-y-4">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="text-center mb-16 space-y-4"
+          >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#181818] border border-[#2B2B2B] text-brand-red text-xs font-bold uppercase tracking-wider">
               <HelpCircle className="w-3.5 h-3.5" />
               <span>Clarity & Policies</span>
@@ -63,17 +71,24 @@ export function FAQAccordion() {
             <p className="text-sm sm:text-base text-gray-400">
               Straightforward answers about our quote-first wholesale model, batch sizes, and institutional ordering procedures.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="space-y-4">
+          <motion.div
+            variants={createStaggerContainer(0.06, 0.1)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="space-y-4"
+          >
             {faqs.map((faq, idx) => {
               const isOpen = openIndices.includes(idx);
               const headingId = `faq-heading-${idx}`;
               const panelId = `faq-panel-${idx}`;
 
               return (
-                <div
+                <motion.div
                   key={idx}
+                  variants={staggerItem}
                   className="rounded-xl border border-[#222222] bg-[#121212] overflow-hidden transition-colors"
                 >
                   <h3>
@@ -83,50 +98,68 @@ export function FAQAccordion() {
                       aria-expanded={isOpen}
                       aria-controls={panelId}
                       onClick={() => toggleIndex(idx)}
-                      className="w-full py-5 px-6 text-left flex items-center justify-between gap-4 text-white hover:text-brand-red transition-colors focus:outline-none focus:bg-[#181818]"
+                      className="w-full py-5 px-6 text-left flex items-center justify-between gap-4 text-white hover:text-brand-red transition-colors focus:outline-none focus:bg-[#181818] cursor-pointer"
                     >
                       <span className="text-base sm:text-lg font-bold tracking-tight">
                         {faq.question}
                       </span>
                       <ChevronDown
-                        className={`w-5 h-5 shrink-0 transition-transform duration-200 ${
+                        className={`w-5 h-5 shrink-0 transition-transform duration-300 ease-out ${
                           isOpen ? "rotate-180 text-brand-red" : "text-gray-400"
                         }`}
                       />
                     </button>
                   </h3>
 
-                  {isOpen && (
-                    <div
-                      id={panelId}
-                      role="region"
-                      aria-labelledby={headingId}
-                      className="px-6 pb-6 pt-1 text-sm text-gray-300 leading-relaxed border-t border-[#1C1C1C] animate-fade-in"
-                    >
-                      {faq.answer}
-                    </div>
-                  )}
-                </div>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="content"
+                        id={panelId}
+                        role="region"
+                        aria-labelledby={headingId}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: athleticEase }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-6 pb-6 pt-1 text-sm text-gray-300 leading-relaxed border-t border-[#1C1C1C]">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
 
-          <div className="mt-12 text-center p-6 rounded-xl bg-[#141414] border border-[#242424] space-y-3">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="mt-12 text-center p-6 rounded-xl bg-[#141414] border border-[#242424] space-y-3"
+          >
             <h4 className="text-base font-bold text-white">Have a specific equipment tender or requirement?</h4>
             <p className="text-xs text-gray-400 max-w-lg mx-auto">
               Our equipment coordinators can review official technical requirements and provide customized batch quotations.
             </p>
             <div className="pt-2">
-              <button
+              <motion.button
                 type="button"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.18, ease: athleticEase }}
                 onClick={() => setModalOpen(true)}
-                className="px-5 py-2.5 rounded-md bg-[#1F1F1F] hover:bg-brand-red text-white text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 transition-colors border border-[#333]"
+                className="px-5 py-2.5 rounded-md bg-[#1F1F1F] hover:bg-brand-red text-white text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 transition-colors border border-[#333] cursor-pointer"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
                 <span>Ask Our Team</span>
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 

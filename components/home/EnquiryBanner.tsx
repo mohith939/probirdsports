@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MessageSquare, ArrowRight, ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
+import { athleticEase, viewportDefault, revealUp } from "@/lib/motion";
 
 export function EnquiryBanner() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -33,7 +35,13 @@ export function EnquiryBanner() {
         <div className="absolute -bottom-14 left-1/4 w-96 h-28 bg-brand-red/20 blur-[80px] pointer-events-none z-10" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="max-w-2xl space-y-5 sm:space-y-6">
+          <motion.div
+            variants={revealUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportDefault}
+            className="max-w-2xl space-y-5 sm:space-y-6"
+          >
             {/* Top Kicker Tag with Red Bar */}
             <div className="flex items-center gap-3">
               <span className="w-8 h-[2px] bg-brand-red inline-block" />
@@ -56,24 +64,33 @@ export function EnquiryBanner() {
             {/* Dual CTA Buttons */}
             <div className="pt-2 flex flex-wrap items-center gap-3.5 sm:gap-4">
               {/* Primary Chamfered Red Button */}
-              <button
+              <motion.button
                 type="button"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.18, ease: athleticEase }}
                 onClick={() => setModalOpen(true)}
-                className="group relative inline-flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 bg-brand-red hover:bg-brand-redHover text-white font-black font-display text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-[0_0_35px_rgba(224,24,35,0.45)] hover:shadow-[0_0_50px_rgba(224,24,35,0.7)] hover:scale-105 active:scale-95 [clip-path:polygon(10px_0,calc(100%-10px)_0,100%_10px,100%_calc(100%-10px),calc(100%-10px)_100%,10px_100%,0_calc(100%-10px),0_10px)]"
+                className="group relative inline-flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 bg-brand-red hover:bg-brand-redHover text-white font-black font-display text-xs sm:text-sm uppercase tracking-wider transition-colors duration-300 shadow-[0_0_35px_rgba(224,24,35,0.45)] hover:shadow-[0_0_50px_rgba(224,24,35,0.7)] [clip-path:polygon(10px_0,calc(100%-10px)_0,100%_10px,100%_calc(100%-10px),calc(100%-10px)_100%,10px_100%,0_calc(100%-10px),0_10px)] cursor-pointer"
               >
                 <MessageSquare className="w-4 h-4 shrink-0" />
                 <span>REQUEST A BULK QUOTE</span>
                 <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </motion.button>
 
               {/* Secondary Chamfered Dark Outlined Button */}
-              <Link
-                href="/products"
-                className="group relative inline-flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 bg-[#0A0A0A]/70 hover:bg-[#161616] text-white font-black font-display text-xs sm:text-sm uppercase tracking-wider border border-white/20 hover:border-white/50 backdrop-blur-sm transition-all duration-300 hover:scale-105 active:scale-95 [clip-path:polygon(10px_0,calc(100%-10px)_0,100%_10px,100%_calc(100%-10px),calc(100%-10px)_100%,10px_100%,0_calc(100%-10px),0_10px)]"
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.18, ease: athleticEase }}
               >
-                <span>EXPLORE CATALOGUE</span>
-                <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform" />
-              </Link>
+                <Link
+                  href="/products"
+                  className="group relative inline-flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 bg-[#0A0A0A]/70 hover:bg-[#161616] text-white font-black font-display text-xs sm:text-sm uppercase tracking-wider border border-white/20 hover:border-white/50 backdrop-blur-sm transition-colors duration-300 [clip-path:polygon(10px_0,calc(100%-10px)_0,100%_10px,100%_calc(100%-10px),calc(100%-10px)_100%,10px_100%,0_calc(100%-10px),0_10px)]"
+                >
+                  <span>EXPLORE CATALOGUE</span>
+                  <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
             </div>
 
             {/* Trust Highlights Line */}
@@ -87,7 +104,7 @@ export function EnquiryBanner() {
                 <span>Direct enquiry</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
