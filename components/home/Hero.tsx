@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { MessageSquare, ArrowRight, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { MessageSquare, ArrowRight } from "lucide-react";
 import { BulkQuoteModal } from "@/components/ui/BulkQuoteModal";
 
 export function Hero() {
@@ -10,114 +10,84 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative min-h-[88vh] lg:min-h-[92vh] flex items-center justify-center overflow-hidden bg-[#0A0A0A] border-b border-[#1A1A1A]">
-        {/* Animated Background Container */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          {/* Animated Hero Artwork using section-1.png */}
-          <div className="relative w-full h-full animate-hero-bg">
-            <Image
-              src="/images/section-1.png"
-              alt="ProBird Sports Multi-Sport Athletes - Cricket, Football, Basketball, and Badminton"
-              fill
-              sizes="100vw"
-              priority
-              className="object-cover object-[70%_center] sm:object-[center_right] lg:object-center brightness-95"
-            />
-          </div>
+      <section className="relative min-h-[85vh] lg:min-h-[92vh] flex items-center overflow-hidden bg-[#070707] border-b border-[#1A1A1A]">
+        {/* Background Artwork using header.jpg */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <Image
+            src="/images/header.jpg"
+            alt="ProBird Sports basketball athlete preparing on court - Bulk wholesale sports equipment"
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover object-[75%_center] sm:object-right lg:object-right brightness-[0.94] contrast-[1.04]"
+          />
 
-          {/* Cinematic Athletic Gradient Overlays */}
-          {/* Base darkening for whole image */}
-          <div className="absolute inset-0 bg-black/35" />
+          {/* Directional gradient ensuring left text legibility over deep black stadium ambience */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#070707] via-[#070707]/80 sm:via-[#070707]/55 to-transparent" />
 
-          {/* Left-to-right gradient ensuring text readability over athletes */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/90 sm:via-[#0A0A0A]/75 sm:to-transparent to-[#0A0A0A]/60" />
+          {/* Subtle top and bottom transitions */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#070707] via-transparent to-[#070707]/40" />
 
-          {/* Bottom-to-top gradient for clean section transition */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent" />
-
-          {/* Animated Ambient Red Athletic Glow */}
-          <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-brand-red/15 rounded-full blur-[120px] pointer-events-none animate-hero-glow" />
-          <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-brand-red/10 rounded-full blur-[90px] pointer-events-none" />
+          {/* Ambient red court floor reflection glow */}
+          <div className="absolute bottom-0 left-1/4 w-96 h-40 bg-brand-red/15 blur-[100px] pointer-events-none" />
         </div>
 
-        {/* Hero Content Container */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
-          <div className="max-w-2xl lg:max-w-3xl">
-            {/* Tagline Badge (Animated entrance) */}
-            <div className="animate-hero-badge inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-md bg-[#161616]/90 backdrop-blur-md border border-[#2E2E2E] mb-6 shadow-lg shadow-black/50">
-              <span className="w-2 h-2 rounded-full bg-brand-red animate-pulse" />
-              <span className="text-xs font-bold tracking-widest uppercase text-gray-200">
-                PLAY STRONG. FLY HIGH.
-              </span>
-              <span className="text-xs text-gray-500">|</span>
-              <span className="text-xs text-brand-red font-semibold uppercase tracking-wider">
-                Bulk B2B Supply
-              </span>
+        {/* Hero Content Container matching reference mockup */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32 w-full">
+          <div className="max-w-2xl lg:max-w-3xl space-y-6 sm:space-y-7">
+            {/* Tagline Kicker Bar matching reference mockup */}
+            <div className="flex items-center gap-3">
+              <div className="w-8 sm:w-10 h-[2.5px] bg-brand-red rounded-full shrink-0" />
+              <div className="flex items-center gap-2 text-xs sm:text-[13px] font-bold uppercase tracking-[0.2em]">
+                <span className="text-gray-200">PLAY STRONG. FLY HIGH.</span>
+                <span className="text-gray-500 font-normal">/</span>
+                <span className="text-brand-red">BULK B2B SUPPLY</span>
+              </div>
             </div>
 
-            {/* Main Headline (Animated entrance) */}
-            <h1 className="animate-hero-title text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white font-display uppercase leading-[1.05] drop-shadow-md">
+            {/* Main Headline matching reference mockup */}
+            <h1 className="text-5xl sm:text-7xl lg:text-[88px] font-black font-display uppercase tracking-tight text-white leading-[0.92] drop-shadow-2xl">
               EQUIP YOUR <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-300">
-                NEXT WIN.
-              </span>
+              <span className="text-brand-red">NEXT WIN.</span>
             </h1>
 
-            {/* Supporting Copy (Animated entrance) */}
-            <p className="animate-hero-copy mt-6 text-base sm:text-lg lg:text-xl text-gray-200 leading-relaxed font-normal max-w-2xl drop-shadow-sm">
-              Sports equipment for teams, institutions, and businesses ready to play bigger. Direct wholesale quotations across cricket, football, basketball, badminton, and athletic conditioning.
-            </p>
-
-            {/* Value Highlights (Animated entrance) */}
-            <div className="animate-hero-highlights mt-6 flex flex-wrap gap-y-2.5 gap-x-6 text-xs sm:text-sm text-gray-200">
-              <div className="flex items-center gap-2 bg-[#121212]/80 backdrop-blur-sm px-3 py-1.5 rounded border border-[#222]">
-                <CheckCircle2 className="w-4 h-4 text-brand-red shrink-0" />
-                <span>Multi-Category Bulk Sourcing</span>
-              </div>
-              <div className="flex items-center gap-2 bg-[#121212]/80 backdrop-blur-sm px-3 py-1.5 rounded border border-[#222]">
-                <CheckCircle2 className="w-4 h-4 text-brand-red shrink-0" />
-                <span>Institutional Tier Pricing</span>
-              </div>
-              <div className="flex items-center gap-2 bg-[#121212]/80 backdrop-blur-sm px-3 py-1.5 rounded border border-[#222]">
-                <CheckCircle2 className="w-4 h-4 text-brand-red shrink-0" />
-                <span>Direct WhatsApp Consultation</span>
-              </div>
+            {/* Supporting Copy matching reference mockup */}
+            <div className="space-y-1 text-sm sm:text-base lg:text-[17px] text-gray-300 font-normal leading-relaxed max-w-xl">
+              <p>Sports equipment for teams, institutions, and businesses.</p>
+              <p className="text-gray-400">
+                Request wholesale quotations across cricket, football, basketball, badminton, and athletic conditioning.
+              </p>
             </div>
 
-            {/* CTAs (Animated entrance) */}
-            <div className="animate-hero-cta mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+            {/* Dual CTAs matching reference mockup */}
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <button
                 type="button"
                 onClick={() => setModalOpen(true)}
-                className="px-8 py-4 rounded-md bg-brand-red hover:bg-brand-redHover text-white font-bold text-xs sm:text-sm tracking-wider uppercase flex items-center justify-center gap-2.5 shadow-xl shadow-brand-red/30 transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 focus:ring-offset-black group"
+                className="px-7 sm:px-8 py-4 rounded-lg bg-brand-red hover:bg-brand-redHover text-white font-bold text-xs sm:text-sm tracking-wider uppercase flex items-center justify-center gap-2.5 shadow-[0_0_28px_rgba(224,24,35,0.45)] hover:shadow-[0_0_40px_rgba(224,24,35,0.7)] transition-all transform hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-red"
               >
-                <MessageSquare className="w-4 h-4" />
-                <span>Request a Bulk Quote</span>
+                <MessageSquare className="w-4 h-4 shrink-0" />
+                <span>REQUEST A BULK QUOTE</span>
+                <ArrowRight className="w-4 h-4 shrink-0 ml-0.5" />
               </button>
 
               <a
                 href="/products"
-                className="px-8 py-4 rounded-md bg-[#161616]/90 hover:bg-[#202020] text-white font-bold text-xs sm:text-sm tracking-wider uppercase border border-[#2E2E2E] hover:border-gray-400 flex items-center justify-center gap-2 backdrop-blur-sm transition-all group"
+                className="group px-7 sm:px-8 py-4 rounded-lg bg-black/55 hover:bg-black/80 text-gray-200 hover:text-white font-bold text-xs sm:text-sm tracking-wider uppercase border border-[#303030] hover:border-gray-400 flex items-center justify-center gap-2.5 backdrop-blur-md transition-all transform hover:-translate-y-0.5 active:scale-95"
               >
-                <span>Browse Products</span>
-                <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                <span>BROWSE PRODUCTS</span>
+                <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0 ml-0.5" />
               </a>
-            </div>
-
-            {/* Buyer Trust Signal (Animated entrance) */}
-            <div className="animate-hero-trust mt-10 sm:mt-12 pt-6 border-t border-white/10 flex items-center gap-3 text-xs text-gray-300">
-              <ShieldCheck className="w-4 h-4 text-brand-red shrink-0" />
-              <span>
-                Dedicated wholesale procurement division for schools, sports clubs, academies, colleges, and commercial retailers.
-              </span>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Interactive Bulk Quote Modal */}
       <BulkQuoteModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
+        initialProduct="General Bulk Equipment Enquiry"
       />
     </>
   );
