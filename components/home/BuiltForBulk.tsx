@@ -76,9 +76,8 @@ export function BuiltForBulk() {
                     alt="Multi-Sport Sourcing - Cricket, Football, Basketball, Badminton"
                     fill
                     sizes="(max-width: 640px) 100vw, 350px"
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover object-right group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
                   <div className="relative z-10 h-full p-3.5 flex flex-col justify-between">
                     <div className="flex items-start gap-2.5">
                       <div className="w-7 h-7 rounded bg-brand-red/15 border border-brand-red/40 flex items-center justify-center shrink-0">
@@ -106,9 +105,8 @@ export function BuiltForBulk() {
                     alt="Customized Quotations Checklist and Equipment Orders"
                     fill
                     sizes="(max-width: 640px) 100vw, 350px"
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover object-right group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
                   <div className="relative z-10 h-full p-3.5 flex flex-col justify-between">
                     <div className="flex items-start gap-2.5">
                       <div className="w-7 h-7 rounded bg-brand-red/15 border border-brand-red/40 flex items-center justify-center shrink-0">
@@ -136,9 +134,8 @@ export function BuiltForBulk() {
                     alt="Team and Tournament Equipment Supply"
                     fill
                     sizes="(max-width: 640px) 100vw, 350px"
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover object-right group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
                   <div className="relative z-10 h-full p-3.5 flex flex-col justify-between">
                     <div className="flex items-start gap-2.5">
                       <div className="w-7 h-7 rounded bg-brand-red/15 border border-brand-red/40 flex items-center justify-center shrink-0">
@@ -166,9 +163,8 @@ export function BuiltForBulk() {
                     alt="Direct Consultation on WhatsApp"
                     fill
                     sizes="(max-width: 640px) 100vw, 350px"
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover object-right group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
                   <div className="relative z-10 h-full p-3.5 flex flex-col justify-between">
                     <div className="flex items-start gap-2.5">
                       <div className="w-7 h-7 rounded bg-brand-red/15 border border-brand-red/40 flex items-center justify-center shrink-0">
@@ -261,7 +257,7 @@ export function BuiltForBulk() {
                 />
                 {/* Subtle gradient to merge cleanly with left side on smaller screens */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#070707] via-transparent to-transparent lg:hidden" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#070707]/60 via-transparent to-transparent hidden lg:block" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#070707]/15 via-transparent to-transparent hidden lg:block" />
               </div>
             </div>
           </div>
