@@ -32,8 +32,32 @@ export default function ContactPage() {
     ].join("\n");
   };
 
+  const persistToDatabase = (actionSource: string) => {
+    try {
+      fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim() || "Institutional Buyer",
+          orgType,
+          email: email.trim(),
+          phone: phone.trim(),
+          category,
+          quantity: quantity.trim(),
+          specifications: message.trim(),
+          source: actionSource,
+        }),
+      }).catch((err) => {
+        console.warn("[ContactPage] Background database save error:", err);
+      });
+    } catch (err) {
+      // Ignore background fetch error
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    persistToDatabase("contact_page_submit");
     const text = buildMessageText();
     const url = generateWhatsAppUrl(text);
     window.open(url, "_blank", "noopener,noreferrer");
@@ -41,6 +65,7 @@ export default function ContactPage() {
   };
 
   const handleCopy = () => {
+    persistToDatabase("contact_page_copy");
     const text = buildMessageText();
     navigator.clipboard.writeText(text);
     setCopied(true);

@@ -81,8 +81,31 @@ export function BulkQuoteModal({
     return lines.join("\n");
   };
 
+  const persistToDatabase = (actionSource: string) => {
+    try {
+      fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim() || "Wholesale Buyer",
+          orgType,
+          itemsNeeded: itemsNeeded.trim() || initialProduct || "General Equipment",
+          quantity: quantity.trim(),
+          specifications: specifications.trim(),
+          category: initialCategory || "General",
+          source: actionSource,
+        }),
+      }).catch((err) => {
+        console.warn("[BulkQuoteModal] Background database save error:", err);
+      });
+    } catch (err) {
+      // Ignore background fetch error so user action isn't blocked
+    }
+  };
+
   const handleWhatsAppClick = (e: React.FormEvent) => {
     e.preventDefault();
+    persistToDatabase("modal_whatsapp_submit");
     const text = buildStructuredEnquiry();
     const url = generateWhatsAppUrl(text);
     window.open(url, "_blank", "noopener,noreferrer");
@@ -90,6 +113,7 @@ export function BulkQuoteModal({
   };
 
   const handleCopy = () => {
+    persistToDatabase("modal_copy_text");
     const text = buildStructuredEnquiry();
     navigator.clipboard.writeText(text);
     setCopied(true);

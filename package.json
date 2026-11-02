@@ -6,12 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "sunlight:start": "node server.js",
     "lint": "next lint"
   },
   "dependencies": {
     "clsx": "^2.1.1",
     "framer-motion": "^14.6.0",
     "lucide-react": "^0.475.0",
+    "mysql2": "^3.24.6",
     "next": "^15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

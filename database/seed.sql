@@ -1,0 +1,27 @@
+-- ====================================================================
+-- ProBird Sports — Sunlight Host Seed Data
+-- Pre-fills categories and initial catalog products into MySQL
+-- ====================================================================
+
+-- 1. SEED CATEGORIES
+INSERT INTO `categories` (`id`, `name`, `tagline`, `description`, `hero_image`, `icon_name`, `product_count`) VALUES
+('cricket', 'Cricket', 'Precision Crafted for Match Winning Performance', 'Pro-grade English & Kashmir willow bats, hand-stitched leather balls, and protective gear engineered for clubs, academies, and tournaments.', 'https://images.unsplash.com/photo-1531415074868-036b107e775a?auto=format&fit=crop&w=1200&q=80', 'Flame', 4),
+('football', 'Football', 'Engineered Aerodynamics & Institutional Durability', 'FIFA-standard match footballs, high-impact training markers, and tournament goals built for schools, leagues, and professional clubs.', 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1200&q=80', 'Shield', 3),
+('basketball', 'Basketball', 'Microfiber Composite Grip for Court Mastery', 'Tournament composite leather basketballs, heavy-duty breakaway flex rims, and court accessories for educational institutions and sports complexes.', 'https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=1200&q=80', 'Trophy', 3),
+('badminton', 'Badminton', 'Aerodynamic Carbon Precision & Flight Consistency', 'High-modulus carbon graphite rackets, tournament goose feather shuttles, and tournament court equipment.', 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80', 'Zap', 2),
+('fitness', 'Fitness & Conditioning', 'Institutional Strength, Conditioning & Recovery', 'Commercial-grade urethane hex dumbbells, Olympic bumper plates, and conditioning equipment designed for heavy daily athletic volume.', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80', 'Dumbbell', 2)
+ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `tagline`=VALUES(`tagline`);
+
+-- 2. SEED SAMPLE PRODUCTS
+INSERT INTO `products` (`id`, `slug`, `name`, `category`, `category_display_name`, `badge`, `short_description`, `full_description`, `suggested_bulk_tier`, `image`, `target_buyer`, `featured`) VALUES
+('crk-bat-01', 'probird-imperial-grade-1-english-willow-bat', 'ProBird Imperial Grade 1 English Willow Cricket Bat', 'cricket', 'Cricket', 'Flagship', 'Handcrafted from reserve-grade unbleached English Willow with 8-12 straight grains, massive 40mm contoured edges, and featherlight pickup.', 'Engineered for top-tier competitive cricketers, club captains, and elite coaching academies.', 'Min. 5 Units / Team Kit Packs', '/images/featured-cricket.jpg', 'Sports Academies, Clubs & Tournament Teams', 1),
+('crk-ball-01', 'probird-four-piece-club-match-leather-balls', 'ProBird Club Match 4-Piece Alum-Tanned Leather Balls', 'cricket', 'Cricket', 'Tournament Grade', 'Box of 12 hand-stitched four-piece leather balls built for 50-over matches with Portuguese cork core and double-wax finish.', 'Regulation grade match balls engineered for leagues and state associations.', 'Box of 12 (Master Carton: 120 Balls)', '/images/game-card-cricket.jpg', 'Cricket Leagues, Tournament Organizers & Clubs', 1),
+('ft-ball-01', 'probird-aerostrike-pro-match-football', 'ProBird AeroStrike Pro Match Football (Size 5)', 'football', 'Football', 'Pro Match', 'FIFA-standard thermally bonded 32-panel PU football engineered for trajectory accuracy, zero water absorption, and high impact speed.', 'Designed for top-tier football clubs, university leagues, and tournament play.', 'Box of 10 / Team Carton of 25', '/images/featured-football.jpg', 'Clubs, Universities & Tournament Leagues', 1),
+('bsk-ball-01', 'probird-vanguard-composite-match-basketball', 'ProBird Vanguard Composite Match Basketball (Size 7)', 'basketball', 'Basketball', 'Pro Match', 'FIBA-standard microfiber composite leather with deep pebbled channels, moisture-wicking surface, and responsive rebound core.', 'Tournament grade ball engineered for indoor wooden courts and high-performance sports complexes.', 'Box of 6 / Master Pack of 24', '/images/featured-basketball.jpg', 'Universities, Basketball Academies & Sports Arenas', 1),
+('bdm-rkt-01', 'probird-aeroblade-tour-graphite-badminton-racket', 'ProBird AeroBlade Tour High-Modulus Graphite Racket', 'badminton', 'Badminton', 'Tournament Grade', 'High-modulus carbon graphite frame strung to 28-30 lbs tension with isometric head shape for explosive smash speed.', 'Built for competitive singles and doubles club players, school teams, and coaching centres.', 'Set of 6 Rackets / Academy Set of 20', '/images/featured-badminton.jpg', 'Badminton Academies, Schools & Sports Retailers', 1)
+ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `badge`=VALUES(`badge`);
+
+-- 3. SEED INITIAL SAMPLE ENQUIRY (For verifying phpMyAdmin display)
+INSERT INTO `enquiries` (`name`, `email`, `phone`, `org_type`, `category`, `items_needed`, `quantity`, `specifications`, `source`, `status`) VALUES
+('National Sports Academy Coordinator', 'procurement@example.com', '+91 98765 43210', 'Sports Academy / Coaching Centre', 'Multi-Sport', 'English Willow Bats (5 units), AeroStrike Footballs (20 units), Vanguard Basketballs (10 units)', '35 total units', 'Delivery needed before winter tournament season starts.', 'system_seed', 'new')
+ON DUPLICATE KEY UPDATE `status`=VALUES(`status`);
