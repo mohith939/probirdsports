@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="12" fill="#0A0A0A"/>
+  <!-- Eagle Stylized Head in Black & Red -->
+  <path d="M10 20 L40 20 L30 28 L52 28 L38 38 L58 38 L60 46 C50 50 36 52 24 46 L32 38 L18 38 L26 30 L10 30 Z" fill="#E01823" />
+  <path d="M14 16 L48 16 L38 24 L56 24 L44 34 L62 34 C58 42 48 46 38 46 L42 38 L24 38 L30 28 L14 28 Z" fill="#FFFFFF" opacity="0.9" />
+  <circle cx="48" cy="22" r="2.5" fill="#E01823" />
+</svg>

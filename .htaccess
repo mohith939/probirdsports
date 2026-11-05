@@ -1,0 +1,85 @@
+# ==============================================================================
+# ProBird Sports — Sunlight Host / Apache Production Configuration
+# Works seamlessly whether repo root or out/ contents are in public_html
+# ==============================================================================
+
+# 1. Directory Indexing & Default Documents
+Options -Indexes
+DirectoryIndex index.html out/index.html index.htm
+
+# 2. URL Rewriting & Clean URL Resolution
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # ----------------------------------------------------------------------------
+  # Security Rules: Block sensitive code, config files, and hidden directories
+  # ----------------------------------------------------------------------------
+  RewriteRule "(^|/)\.(?!well-known)" - [F]
+  RewriteRule "(^|/)(package\.json|package-lock\.json|tsconfig\.json|next\.config\.ts|server\.js|\.env.*)$" - [F]
+
+  # ----------------------------------------------------------------------------
+  # Deployment Scenario A: Whole repo is inside public_html (serve from out/)
+  # ----------------------------------------------------------------------------
+  # Root request -> serve out/index.html
+  RewriteCond %{DOCUMENT_ROOT}/out/index.html -f
+  RewriteRule ^$ out/index.html [L]
+
+  # If a file directly exists in out/ (e.g. out/_next/..., out/images/...)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{DOCUMENT_ROOT}/out%{REQUEST_URI} -f
+  RewriteRule ^(.*)$ out/$1 [L]
+
+  # If a clean directory URL exists in out/ (e.g. /products -> out/products/index.html)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{DOCUMENT_ROOT}/out%{REQUEST_URI}/index.html -f
+  RewriteRule ^(.*)/?$ out/$1/index.html [L]
+
+  # ----------------------------------------------------------------------------
+  # Deployment Scenario B: Contents of out/ were copied directly to public_html
+  # ----------------------------------------------------------------------------
+  # Redirect non-slash directory requests to trailing slash if index.html exists
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.*[^/])$ $1/ [R=301,L]
+
+  # Clean URLs: Serve directory index.html if requested
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.*)$ $1/index.html [L]
+
+  # Clean URLs: If file doesn't exist, check for matching .html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+# 3. Custom Error Page
+ErrorDocument 404 /404.html
+
+# 4. Performance: Browser Caching & Compression
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+
+  ExpiresByType text/html "access plus 1 hour"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# 5. Security Headers
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
